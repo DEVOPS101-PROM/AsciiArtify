@@ -1,0 +1,421 @@
+# The configurations that used for the recording, feel free to edit them
+config:
+
+  # Specify a command to be executed
+  # like `/bin/bash -l`, `ls`, or any other commands
+  # the default is bash for Linux
+  # or powershell.exe for Windows
+  command: bash -l
+  
+  # Specify the current working directory path
+  # the default is the current working directory path
+  cwd: /mnt/y/bdsm/learning/AsciiArtify
+  
+  # Export additional ENV variables
+  env:
+    recording: true
+  
+  # Explicitly set the number of columns
+  # or use `auto` to take the current
+  # number of columns of your shell
+  cols: 227
+  
+  # Explicitly set the number of rows
+  # or use `auto` to take the current
+  # number of rows of your shell
+  rows: 57
+  
+  # Amount of times to repeat GIF
+  # If value is -1, play once
+  # If value is 0, loop indefinitely
+  # If value is a positive number, loop n times
+  repeat: 0
+  
+  # Quality
+  # 1 - 100
+  quality: 100
+  
+  # Delay between frames in ms
+  # If the value is `auto` use the actual recording delays
+  frameDelay: auto
+  
+  # Maximum delay between frames in ms
+  # Ignored if the `frameDelay` isn't set to `auto`
+  # Set to `auto` to prevent limiting the max idle time
+  maxIdleTime: 2000
+  
+  # The surrounding frame box
+  # The `type` can be null, window, floating, or solid`
+  # To hide the title use the value null
+  # Don't forget to add a backgroundColor style with a null as type
+  frameBox:
+    type: floating
+    title: Terminalizer
+    style:
+      border: 0px black solid
+      # boxShadow: none
+      # margin: 0px
+  
+  # Add a watermark image to the rendered gif
+  # You need to specify an absolute path for
+  # the image on your machine or a URL, and you can also
+  # add your own CSS styles
+  watermark:
+    imagePath: null
+    style:
+      position: absolute
+      right: 15px
+      bottom: 15px
+      width: 100px
+      opacity: 0.9
+  
+  # Cursor style can be one of
+  # `block`, `underline`, or `bar`
+  cursorStyle: block
+  
+  # Font family
+  # You can use any font that is installed on your machine
+  # in CSS-like syntax
+  fontFamily: "Monaco, Lucida Console, Ubuntu Mono, Monospace"
+  
+  # The size of the font
+  fontSize: 12
+  
+  # The height of lines
+  lineHeight: 1
+  
+  # The spacing between letters
+  letterSpacing: 0
+  
+  # Theme
+  theme:
+    background: "transparent"
+    foreground: "#afafaf"
+    cursor: "#c7c7c7"
+    black: "#232628"
+    red: "#fc4384"
+    green: "#b3e33b"
+    yellow: "#ffa727"
+    blue: "#75dff2"
+    magenta: "#ae89fe"
+    cyan: "#708387"
+    white: "#d5d5d0"
+    brightBlack: "#626566"
+    brightRed: "#ff7fac"
+    brightGreen: "#c8ed71"
+    brightYellow: "#ebdf86"
+    brightBlue: "#75dff2"
+    brightMagenta: "#ae89fe"
+    brightCyan: "#b1c6ca"
+    brightWhite: "#f9f9f4"
+  
+# Records, feel free to edit them
+records:
+  - delay: 766
+    content: "\e[?2004h\e]0;o0rt@devops-lpt: /mnt/y/bdsm/learning/AsciiArtify\a\e[01;32mo0rt@devops-lpt\e[00m:\e[01;34m/mnt/y/bdsm/learning/AsciiArtify\e[00m$ "
+  - delay: 10548
+    content: "\e[7mwget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash\e[27m"
+  - delay: 2694
+    content: "\r\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[Cwget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash\r\n\e[?2004l\r"
+  - delay: 3268
+    content: "Preparing to install k3d into /usr/local/bin\r\n"
+  - delay: 7
+    content: '[sudo] password for o0rt: '
+  - delay: 5849
+    content: "\r\n"
+  - delay: 91
+    content: "k3d installed into /usr/local/bin/k3d\r\nRun 'k3d --help' to see what you can do with it.\r\n"
+  - delay: 7
+    content: "\e[?2004h\e]0;o0rt@devops-lpt: /mnt/y/bdsm/learning/AsciiArtify\a\e[01;32mo0rt@devops-lpt\e[00m:\e[01;34m/mnt/y/bdsm/learning/AsciiArtify\e[00m$ "
+  - delay: 12684
+    content: k
+  - delay: 458
+    content: '3'
+  - delay: 411
+    content: d
+  - delay: 361
+    content: ' '
+  - delay: 745
+    content: '-'
+  - delay: 141
+    content: '-'
+  - delay: 276
+    content: h
+  - delay: 249
+    content: e
+  - delay: 360
+    content: l
+  - delay: 83
+    content: p
+  - delay: 242
+    content: ' '
+  - delay: 1782
+    content: "\r\n\e[?2004l\r"
+  - delay: 17
+    content: "https://k3d.io/\r\nk3d is a wrapper CLI that helps you to easily create k3s clusters inside docker.\r\nNodes of a k3d cluster are docker containers running a k3s image.\r\nAll Nodes of a k3d cluster are part of the same docker network.\r\n\r\nUsage:\r\n  k3d [flags]\r\n  k3d [command]\r\n\r\nAvailable Commands:\r\n  cluster      Manage cluster(s)\r\n  completion   Generate completion scripts for [bash, zsh, fish, powershell | psh]\r\n  config       Work with config file(s)\r\n  help         Help about any command\r\n  image        Handle container images.\r\n  kubeconfig   Manage kubeconfig(s)\r\n  node         Manage node(s)\r\n  registry     Manage registry/registries\r\n  version      Show k3d and default k3s version\r\n\r\nFlags:\r\n  -h, --help         help for k3d\r\n      --timestamps   Enable Log timestamps\r\n      --trace        Enable super verbose output (trace logging)\r\n      --verbose      Enable verbose output (debug logging)\r\n      --version      Show k3d and default k3s version\r\n\r\nUse \"k3d [command] --help\" for more information about a command.\r\n\e[?2004h\e]0;o0rt@devops-lpt: /mnt/y/bdsm/learning/AsciiArtify\a\e[01;32mo0rt@devops-lpt\e[00m:\e[01;34m/mnt/y/bdsm/learning/AsciiArtify\e[00m$ "
+  - delay: 5857
+    content: "\e[7mk3d cluster create asciiartify-poc\e[27m"
+  - delay: 2092
+    content: "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\bk3d cluster create asciiartify-poc\r\n\e[?2004l\r"
+  - delay: 60
+    content: "\e[36mINFO\e[0m[0000] Prep: Network                                \r\n"
+  - delay: 86
+    content: "\e[36mINFO\e[0m[0000] Created network 'k3d-asciiartify-poc'        \r\n"
+  - delay: 15
+    content: "\e[36mINFO\e[0m[0000] Created image volume k3d-asciiartify-poc-images \r\n"
+  - delay: 21
+    content: "\e[36mINFO\e[0m[0000] Starting new tools node...                   \r\n"
+  - delay: 158
+    content: "\e[36mINFO\e[0m[0000] Starting node 'k3d-asciiartify-poc-tools'    \r\n"
+  - delay: 850
+    content: "\e[36mINFO\e[0m[0001] Creating node 'k3d-asciiartify-poc-server-0' \r\n"
+  - delay: 108
+    content: "\e[36mINFO\e[0m[0001] Creating LoadBalancer 'k3d-asciiartify-poc-serverlb' \r\n"
+  - delay: 151
+    content: "\e[36mINFO\e[0m[0001] Using the k3d-tools node to gather environment information \r\n"
+  - delay: 774
+    content: "\e[36mINFO\e[0m[0002] Starting new tools node...                   \r\n"
+  - delay: 166
+    content: "\e[36mINFO\e[0m[0002] Starting node 'k3d-asciiartify-poc-tools'    \r\n"
+  - delay: 1374
+    content: "\e[36mINFO\e[0m[0003] Starting cluster 'asciiartify-poc'           \r\n\e[36mINFO\e[0m[0003] Starting servers...                          \r\n"
+  - delay: 237
+    content: "\e[36mINFO\e[0m[0003] Starting node 'k3d-asciiartify-poc-server-0' \r\n"
+  - delay: 4261
+    content: "\e[36mINFO\e[0m[0008] All agents already running.                  \r\n\e[36mINFO\e[0m[0008] Starting helpers...                          \r\n"
+  - delay: 136
+    content: "\e[36mINFO\e[0m[0008] Starting node 'k3d-asciiartify-poc-serverlb' \r\n"
+  - delay: 6444
+    content: "\e[36mINFO\e[0m[0014] Injecting records for hostAliases (incl. host.k3d.internal) and for 3 network members into CoreDNS configmap... \r\n"
+  - delay: 2170
+    content: "\e[36mINFO\e[0m[0017] Cluster 'asciiartify-poc' created successfully! \r\n"
+  - delay: 93
+    content: "\e[36mINFO\e[0m[0017] You can now use it like this:                \r\nkubectl cluster-info\r\n\e[?2004h\e]0;o0rt@devops-lpt: /mnt/y/bdsm/learning/AsciiArtify\a\e[01;32mo0rt@devops-lpt\e[00m:\e[01;34m/mnt/y/bdsm/learning/AsciiArtify\e[00m$ "
+  - delay: 7023
+    content: "\e[7mkubectl get nodes\e[27m"
+  - delay: 2248
+    content: "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\bkubectl get nodes\r\n\e[?2004l\r"
+  - delay: 304
+    content: "NAME                           STATUS   ROLES                  AGE   VERSION\r\nk3d-asciiartify-poc-server-0   Ready    control-plane,master   16s   v1.31.5+k3s1\r\n"
+  - delay: 6
+    content: "\e[?2004h\e]0;o0rt@devops-lpt: /mnt/y/bdsm/learning/AsciiArtify\a\e[01;32mo0rt@devops-lpt\e[00m:\e[01;34m/mnt/y/bdsm/learning/AsciiArtify\e[00m$ "
+  - delay: 2932
+    content: kubectl get nodes
+  - delay: 286
+    content: "\b"
+  - delay: 557
+    content: "\b"
+  - delay: 35
+    content: "\b"
+  - delay: 33
+    content: "\b"
+  - delay: 34
+    content: "\b"
+  - delay: 35
+    content: "\b"
+  - delay: 107
+    content: "\b"
+  - delay: 326
+    content: "\e[C"
+  - delay: 547
+    content: "\b\e[1P nodes\b\b\b\b\b\b"
+  - delay: 129
+    content: "\b\e[1P nodes\b\b\b\b\b\b"
+  - delay: 383
+    content: "\b\e[1P nodes\b\b\b\b\b\b"
+  - delay: 796
+    content: "d nodes\b\b\b\b\b\b"
+  - delay: 201
+    content: "e nodes\b\b\b\b\b\b"
+  - delay: 579
+    content: "s nodes\b\b\b\b\b\b"
+  - delay: 231
+    content: "c nodes\b\b\b\b\b\b"
+  - delay: 536
+    content: "r nodes\b\b\b\b\b\b"
+  - delay: 248
+    content: "i nodes\b\b\b\b\b\b"
+  - delay: 876
+    content: "b nodes\b\b\b\b\b\b"
+  - delay: 98
+    content: "e nodes\b\b\b\b\b\b"
+  - delay: 354
+    content: "\e[C nodes\b\b\b\b\b\b"
+  - delay: 1387
+    content: "\r\n\e[?2004l\r"
+  - delay: 286
+    content: "Name:               k3d-asciiartify-poc-server-0\r\nRoles:              control-plane,master\r\nLabels:             beta.kubernetes.io/arch=amd64\r\n                    beta.kubernetes.io/instance-type=k3s\r\n                    beta.kubernetes.io/os=linux\r\n                    kubernetes.io/arch=amd64\r\n                    kubernetes.io/hostname=k3d-asciiartify-poc-server-0\r\n                    kubernetes.io/os=linux\r\n                    node-role.kubernetes.io/control-plane=true\r\n                    node-role.kubernetes.io/master=true\r\n                    node.kubernetes.io/instance-type=k3s\r\nAnnotations:        alpha.kubernetes.io/provided-node-ip: 172.22.0.3\r\n                    flannel.alpha.coreos.com/backend-data: {\"VNI\":1,\"VtepMAC\":\"f2:10:76:f3:c8:31\"}\r\n                    flannel.alpha.coreos.com/backend-type: vxlan\r\n                    flannel.alpha.coreos.com/kube-subnet-manager: true\r\n                    flannel.alpha.coreos.com/public-ip: 172.22.0.3\r\n                    k3s.io/hostname: k3d-asciiartify-poc-server-0\r\n                    k3s.io/internal-ip: 172.22.0.3\r\n                    k3s.io/node-args: [\"server\",\"--tls-san\",\"0.0.0.0\",\"--tls-san\",\"k3d-asciiartify-poc-serverlb\"]\r\n                    k3s.io/node-config-hash: YAD3OTPOXK2XW76FOA5BK62FGMXOVQPHO6WA37YRGJJKMBY2J6CQ====\r\n                    k3s.io/node-env: {\"K3S_KUBECONFIG_OUTPUT\":\"/output/kubeconfig.yaml\",\"K3S_TOKEN\":\"********\"}\r\n                    node.alpha.kubernetes.io/ttl: 0\r\n                    volumes.kubernetes.io/controller-managed-attach-detach: true\r\nCreationTimestamp:  Mon, 19 May 2025 13:25:10 +0300\r\nTaints:             <none>\r\nUnschedulable:      false\r\nLease:\r\n  HolderIdentity:  k3d-asciiartify-poc-server-0\r\n  AcquireTime:     <unset>\r\n  RenewTime:       Mon, 19 May 2025 13:25:28 +0300\r\nConditions:\r\n  Type             Status  LastHeartbeatTime                 LastTransitionTime                Reason                       Message\r\n  ----             ------  -----------------                 ------------------                ------                       -------\r\n  MemoryPressure   False   Mon, 19 May 2025 13:25:18 +0300   Mon, 19 May 2025 13:25:10 +0300   KubeletHasSufficientMemory   kubelet has sufficient memory available\r\n  DiskPressure     False   Mon, 19 May 2025 13:25:18 +0300   Mon, 19 May 2025 13:25:10 +0300   KubeletHasNoDiskPressure     kubelet has no disk pressure\r\n  PIDPressure      False   Mon, 19 May 2025 13:25:18 +0300   Mon, 19 May 2025 13:25:10 +0300   KubeletHasSufficientPID      kubelet has sufficient PID available\r\n  Ready            True    Mon, 19 May 2025 13:25:18 +0300   Mon, 19 May 2025 13:25:10 +0300   KubeletReady                 kubelet is posting ready status\r\nAddresses:\r\n  InternalIP:  172.22.0.3\r\n  Hostname:    k3d-asciiartify-poc-server-0\r\nCapacity:\r\n  cpu:                16\r\n  ephemeral-storage:  1055762868Ki\r\n  hugepages-1Gi:      0\r\n  hugepages-2Mi:      0\r\n  memory:             16021836Ki\r\n  pods:               110\r\nAllocatable:\r\n  cpu:                16\r\n  ephemeral-storage:  1027046117185\r\n  hugepages-1Gi:      0\r\n  hugepages-2Mi:      0\r\n  memory:             16021836Ki\r\n  pods:               110\r\nSystem Info:\r\n  Machine ID:                 \r\n  System UUID:                \r\n  Boot ID:                    ac436401-169c-44bd-9175-9847d1fcbb64\r\n  Kernel Version:             5.15.167.4-microsoft-standard-WSL2\r\n  OS Image:                   K3s v1.31.5+k3s1\r\n  Operating System:           linux\r\n  Architecture:               amd64\r\n  Container Runtime Version:  containerd://1.7.23-k3s2\r\n  Kubelet Version:            v1.31.5+k3s1\r\n  Kube-Proxy Version:         v1.31.5+k3s1\r\nPodCIDR:                      10.42.0.0/24\r\nPodCIDRs:                     10.42.0.0/24\r\nProviderID:                   k3s://k3d-asciiartify-poc-server-0\r\nNon-terminated Pods:          (5 in total)\r\n  Namespace                   Name                                       CPU Requests  CPU Limits  Memory Requests  Memory Limits  Age\r\n  ---------                   ----                                       ------------  ----------  ---------------  -------------  ---\r\n  kube-system                 coredns-ccb96694c-h5hvq                    100m (0%)     0 (0%)      70Mi (0%)        170Mi (1%)     21s\r\n  kube-system                 local-path-provisioner-5cf85fd84d-bmbvj    0 (0%)        0 (0%)      0 (0%)           0 (0%)         21s\r\n  kube-system                 metrics-server-5985cbc9d7-v6mc6            100m (0%)     0 (0%)      70Mi (0%)        0 (0%)         21s\r\n  kube-system                 svclb-traefik-c59bdc1c-bd6bh               0 (0%)        0 (0%)      0 (0%)           0 (0%)         8s\r\n  kube-system                 traefik-5d45fc8cc9-vfkzb                   0 (0%)        0 (0%)      0 (0%)           0 (0%)         8s\r\nAllocated resources:\r\n  (Total limits may be over 100 percent, i.e., overcommitted.)\r\n  Resource           Requests    Limits\r\n  --------           --------    ------\r\n  cpu                200m (1%)   0 (0%)\r\n  memory             140Mi (0%)  170Mi (1%)\r\n  ephemeral-storage  0 (0%)      0 (0%)\r\n  hugepages-1Gi      0 (0%)      0 (0%)\r\n  hugepages-2Mi      0 (0%)      0 (0%)\r\nEvents:\r\n  Type     Reason                             Age                From                   Message\r\n  ----     ------                             ----               ----                   -------\r\n  Normal   Starting                           26s                kube-proxy             \r\n  Warning  PossibleMemoryBackedVolumesOnDisk  28s                kubelet                The tmpfs noswap option is not supported. Memory-backed volumes (e.g. secrets, emptyDirs, etc.) might be swapped to disk and should no longer be considered secure.\r\n  Normal   Starting                           28s                kubelet                Starting kubelet.\r\n  Warning  InvalidDiskCapacity                28s                kubelet                invalid capacity 0 on image filesystem\r\n  Normal   NodeHasSufficientMemory            27s (x2 over 28s)  kubelet                Node k3d-asciiartify-poc-server-0 status is now: NodeHasSufficientMemory\r\n  Normal   NodeHasNoDiskPressure              27s (x2 over 28s)  kubelet                Node k3d-asciiartify-poc-server-0 status is now: NodeHasNoDiskPressure\r\n  Normal   NodeHasSufficientPID               27s (x2 over 28s)  kubelet                Node k3d-asciiartify-poc-server-0 status is now: NodeHasSufficientPID\r\n  Normal   NodeAllocatableEnforced            27s                kubelet                Updated Node Allocatable limit across pods\r\n  Normal   NodeReady                          27s                kubelet                Node k3d-asciiartify-poc-server-0 status is now: NodeReady\r\n  Normal   NodePasswordValidationComplete     24s                k3s-supervisor         Deferred node password secret validation complete\r\n  Normal   Synced                             23s                cloud-node-controller  Node synced successfully\r\n  Normal   RegisteredNode                     22s                node-controller        Node k3d-asciiartify-poc-server-0 event: Registered Node k3d-asciiartify-poc-server-0 in Controller\r\n\e[?2004h\e]0;o0rt@devops-lpt: /mnt/y/bdsm/learning/AsciiArtify\a\e[01;32mo0rt@devops-lpt\e[00m:\e[01;34m/mnt/y/bdsm/learning/AsciiArtify\e[00m$ "
+  - delay: 12209
+    content: c
+  - delay: 104
+    content: a
+  - delay: 267
+    content: t
+  - delay: 482
+    content: ' '
+  - delay: 664
+    content: <
+  - delay: 516
+    content: <
+  - delay: 894
+    content: E
+  - delay: 280
+    content: I
+  - delay: 376
+    content: "\b\e[K"
+  - delay: 239
+    content: O
+  - delay: 160
+    content: F
+  - delay: 1000
+    content: '>'
+  - delay: 7348
+    content: "\e[7mhello-world-deployment.yaml\e[27m"
+  - delay: 2173
+    content: "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\bhello-world-deployment.yaml\r\n\e[?2004l\r\e[?2004h> "
+  - delay: 7216
+    content: "\e[7mapiVersion: apps/v1\e[27m\r\n\r\e[7mkind: Deployment\e[27m\r\n\r\e[7mmetadata:\e[27m\r\n\r\e[7m  name: hello-world-app\e[27m\r\n\r\e[7mspec:\e[27m\r\n\r\e[7m  replicas: 2\e[27m\r\n\r\e[7m  selector:\e[27m\r\n\r\e[7m    matchLabels:\e[27m\r\n\r\e[7m      app: hello-world\e[27m\r\n\r\e[7m  template:\e[27m\r\n\r\e[7m    metadata:\e[27m\r\n\r\e[7m      labels:\e[27m\r\n\r\e[7m        app: hello-world\e[27m\r\n\r\e[7m    spec:\e[27m\r\n\r\e[7m      containers:\e[27m\r\n\r\e[7m      - name: hello-world-container\e[27m\r\n\r\e[7m        image: nginxdemos/hello # Простий Nginx \"Hello\" образ\e[27m\r\n\r\e[7m        ports:\e[27m\r\n\r\e[7m        - containerPort: 80\e[27m\r\n\r\e[7m---\e[27m\r\n\r\e[7mapiVersion: v1\e[27m\r\n\r\e[7mkind: Service\e[27m\r\n\r\e[7mmetadata:\e[27m\r\n\r\e[7m  name: hello-world-service\e[27m\r\n\r\e[7mspec:\e[27m\r\n\r\e[7m  type: LoadBalancer # K3d з коробки підтримує LoadBalancer через ServiceLB\e[27m\r\n\r\e[7m  selector:\e[27m\r\n\r\e[7m    app: hello-world\e[27m\r\n\r\e[7m  ports:\e[27m\r\n\r\e[7m  - protocol: TCP\e[27m\r\n\r\e[7m    port: 80        # Порт, на якому сервіс буде доступний всередині кластера\e[27m\r\n\r\e[7m    targetPort: 80  # Порт контейнера\e[27m\r\n\r\e[7m    # nodePort: 30080 # Можна вказати, якщо використовується NodePort\e[27m"
+  - delay: 1460
+    content: "\e[A\e[A\e[A\e[A\e[A\e[A\e[A\e[A\e[A\e[A\e[A\e[A\e[A\e[A\e[A\e[A\e[A\e[A\e[A\e[A\e[A\e[A\e[A\e[A\e[A\e[A\e[A\e[A\e[A\e[A\e[A\e[A\r\e[C\e[CapiVersion: apps/v1\r\n\rkind: Deployment\r\n\rmetadata:\r\n\r  name: hello-world-app\r\n\rspec:\r\n\r  replicas: 2\r\n\r  selector:\r\n\r    matchLabels:\r\n\r      app: hello-world\r\n\r  template:\r\n\r    metadata:\r\n\r      labels:\r\n\r        app: hello-world\r\n\r    spec:\r\n\r      containers:\r\n\r      - name: hello-world-container\r\n\r        image: nginxdemos/hello # Простий Nginx \"Hello\" образ\r\n\r        ports:\r\n\r        - containerPort: 80\r\n\r---\r\n\rapiVersion: v1\r\n\rkind: Service\r\n\rmetadata:\r\n\r  name: hello-world-service\r\n\rspec:\r\n\r  type: LoadBalancer # K3d з коробки підтримує LoadBalancer через ServiceLB\r\n\r  selector:\r\n\r    app: hello-world\r\n\r  ports:\r\n\r  - protocol: TCP\r\n\r    port: 80        # Порт, на якому сервіс буде доступний всередині кластера\r\n\r    targetPort: 80  # Порт контейнера\r\n\r    # nodePort: 30080 # Можна вказати, якщо використовується NodePort\r\n\e[?2004l\r\e[?2004h> "
+  - delay: 1210
+    content: E
+  - delay: 389
+    content: O
+  - delay: 105
+    content: F
+  - delay: 904
+    content: "\r\n\e[?2004l\r"
+  - delay: 6
+    content: "\e[?2004h\e]0;o0rt@devops-lpt: /mnt/y/bdsm/learning/AsciiArtify\a\e[01;32mo0rt@devops-lpt\e[00m:\e[01;34m/mnt/y/bdsm/learning/AsciiArtify\e[00m$ "
+  - delay: 1550
+    content: l
+  - delay: 94
+    content: s
+  - delay: 96
+    content: ' '
+  - delay: 260
+    content: "\r\n\e[?2004l\r"
+  - delay: 9
+    content: "\e[0m\e[01;32mREADME.md\e[0m  \e[01;32mdemo.yml\e[0m  \e[34;42mdoc\e[0m  \e[01;32mhello-world-deployment.yaml\e[0m\r\n\e[?2004h\e]0;o0rt@devops-lpt: /mnt/y/bdsm/learning/AsciiArtify\a\e[01;32mo0rt@devops-lpt\e[00m:\e[01;34m/mnt/y/bdsm/learning/AsciiArtify\e[00m$ "
+  - delay: 6394
+    content: "\e[7mkubectl apply -f hello-world-deployment.yaml\e[27m"
+  - delay: 3485
+    content: "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\bkubectl apply -f hello-world-deployment.yaml\r\n\e[?2004l\r"
+  - delay: 400
+    content: "deployment.apps/hello-world-app created\r\n"
+  - delay: 19
+    content: "service/hello-world-service created\r\n"
+  - delay: 6
+    content: "\e[?2004h\e]0;o0rt@devops-lpt: /mnt/y/bdsm/learning/AsciiArtify\a\e[01;32mo0rt@devops-lpt\e[00m:\e[01;34m/mnt/y/bdsm/learning/AsciiArtify\e[00m$ "
+  - delay: 11117
+    content: "\e[7mkubectl get pods\e[27m\r\n\r"
+  - delay: 1027
+    content: "\e[A\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[Ckubectl get pods\r\n\r\e[A\r\n\e[?2004l\r"
+  - delay: 224
+    content: "NAME                               READY   STATUS    RESTARTS   AGE\r\nhello-world-app-5b6ff7664c-2tq55   1/1     Running   0          12s\r\nhello-world-app-5b6ff7664c-8rz49   1/1     Running   0          12s\r\n\e[?2004h\e]0;o0rt@devops-lpt: /mnt/y/bdsm/learning/AsciiArtify\a\e[01;32mo0rt@devops-lpt\e[00m:\e[01;34m/mnt/y/bdsm/learning/AsciiArtify\e[00m$ "
+  - delay: 5674
+    content: "\e[7mkubectl get services\e[27m"
+  - delay: 877
+    content: "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\bkubectl get services\r\n\e[?2004l\r"
+  - delay: 151
+    content: "NAME                  TYPE           CLUSTER-IP    EXTERNAL-IP   PORT(S)        AGE\r\nhello-world-service   LoadBalancer   10.43.28.44   <pending>     80:30746/TCP   17s\r\nkubernetes            ClusterIP      10.43.0.1     <none>        443/TCP        91s\r\n\e[?2004h\e]0;o0rt@devops-lpt: /mnt/y/bdsm/learning/AsciiArtify\a\e[01;32mo0rt@devops-lpt\e[00m:\e[01;34m/mnt/y/bdsm/learning/AsciiArtify\e[00m$ "
+  - delay: 12750
+    content: "\e[7mkubectl port-forward service/hello-world-service 8080:80\e[27m"
+  - delay: 1104
+    content: "\a\r\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[Ckubectl port-forward service/hello-world-service 8080:80"
+  - delay: 2291
+    content: "\r\n\e[?2004l\r"
+  - delay: 182
+    content: "Forwarding from 127.0.0.1:8080 -> 80\r\nForwarding from [::1]:8080 -> 80\r\n"
+  - delay: 1744
+    content: "\r\n"
+  - delay: 179
+    content: "\r\n"
+  - delay: 929
+    content: ^C
+  - delay: 6
+    content: "\e[?2004h\e]0;o0rt@devops-lpt: /mnt/y/bdsm/learning/AsciiArtify\a\e[01;32mo0rt@devops-lpt\e[00m:\e[01;34m/mnt/y/bdsm/learning/AsciiArtify\e[00m$ "
+  - delay: 564
+    content: 'kubectl port-forward service/hello-world-service 8080:80'
+  - delay: 918
+    content: ' '
+  - delay: 589
+    content: '&'
+  - delay: 2460
+    content: "\r\n\e[?2004l\r[1] 43074\r\n\e[?2004h\e]0;o0rt@devops-lpt: /mnt/y/bdsm/learning/AsciiArtify\a\e[01;32mo0rt@devops-lpt\e[00m:\e[01;34m/mnt/y/bdsm/learning/AsciiArtify\e[00m$ "
+  - delay: 185
+    content: "Forwarding from 127.0.0.1:8080 -> 80\r\nForwarding from [::1]:8080 -> 80\r\n"
+  - delay: 863
+    content: "\r\n\e[?2004l\r\e[?2004h\e]0;o0rt@devops-lpt: /mnt/y/bdsm/learning/AsciiArtify\a\e[01;32mo0rt@devops-lpt\e[00m:\e[01;34m/mnt/y/bdsm/learning/AsciiArtify\e[00m$ "
+  - delay: 1551
+    content: l
+  - delay: 567
+    content: 'y'
+  - delay: 904
+    content: 'n'
+  - delay: 112
+    content: x
+  - delay: 631
+    content: ' '
+  - delay: 2946
+    content: l
+  - delay: 190
+    content: o
+  - delay: 296
+    content: c
+  - delay: 300
+    content: a
+  - delay: 155
+    content: l
+  - delay: 394
+    content: h
+  - delay: 156
+    content: o
+  - delay: 390
+    content: s
+  - delay: 328
+    content: t
+  - delay: 474
+    content: ':'
+  - delay: 1041
+    content: '8'
+  - delay: 207
+    content: '0'
+  - delay: 192
+    content: '8'
+  - delay: 182
+    content: '0'
+  - delay: 485
+    content: ' '
+  - delay: 2848
+    content: "\r\n\e[?2004l\r"
+  - delay: 29
+    content: "\e[?1049h\e[22;0;0t\e[1;57r\e(B\e[m\e[4l\e[?7h\e[?1h\e=\e[?1h\e=\e[39;49m\e[39;49m\e[37m\e[40m\e[H\e[2J\e[37m\e[40m\e[J\e(B\e[m\e[39;49m\e[37m\e[40m\e[39;49m\e[37m\e[40m\e[J\e[39;49m\e(B\e[m\e[55d\e[93m\e[44mLooking up localhost first\e[K\e[39;49m\e(B\e[m\r\e[93m\e[44mGetting http://localhost:8080/\e[39;49m\e(B\e[m\r\e[93m\e[44mLooking up localhost:8080\e[K\e[39;49m\e(B\e[m\r\e[93m\e[44mMaking HTTP connection to localhost:8080\e[39;49m\e(B\e[m\r\e[93m\e[44mSending HTTP request.\e[K\e[39;49m\e(B\e[m\r\e[93m\e[44mHTTP request sent; waiting for response.\e[39;49m\e(B\e[mHandling connection for 8080\n"
+  - delay: 7
+    content: "\e[5G\e[93m\e[44m/1.1 200 OK\e[K\e[39;49m\e(B\e[m"
+  - delay: 1005
+    content: "\r\e[93m\e[44mData transfer complete\e[39;49m\e(B\e[m\e[1;217H\e[35m\e[40mHello World\e[2;4H\e[33m\e[40mNGINX Logo\e[4;4H\e[37m\e[40mServer address: 127.0.0.1:80\e[6;4HServer name: hello-world-app-5b6ff7664c-2tq55\e[8;4HDate: 19/May/2025:10:27:17 +0000\e[10;4HURI: /\e[12;4H\e[32m\e[40m[ ]\e[37m\e[40m Auto Refresh\e[14;91HRequest ID: 847b0f498addca95b08f28afcdc390d7\e[15;102H© F5, Inc. 2020 - 2024\e[12;3H\e[39;49m\e(B\e[m\e[56d\e[37m\e[40mArrow keys: Up and Down to move.  Right to follow a link; Left to go back.\r\e[57d H)elp O)ptions P)rint G)o M)ain screen Q)uit /=search [delete]=history list \e[39;49m\e(B\e[m\r\e[55d\e[93m\e[44m(Checkbox Field) Use right-arrow or <return> to toggle.\e[39;49m\e(B\e[m\e[12;4H\e[93m\e[40m[ ]\b\b\b\b\e[39;49m\e(B\e[m"
+  - delay: 7057
+    content: "\r\e[55d\e[93m\e[44mAre you sure you want to quit? (y)\e[K \e[39;49m\e(B\e[m"
+  - delay: 1408
+    content: "\r\e[57d\e[37m\e[40m\e[J\e[39;49m\e(B\e[m\e[57;1H\e[?1049l\e[23;0;0t\r\e[?1l\e>\e[?2004h\e]0;o0rt@devops-lpt: /mnt/y/bdsm/learning/AsciiArtify\a\e[01;32mo0rt@devops-lpt\e[00m:\e[01;34m/mnt/y/bdsm/learning/AsciiArtify\e[00m$ "
+  - delay: 12662
+    content: "\e[7mk3d cluster delete asciiartify-poc\e[27m"
+  - delay: 1678
+    content: "\a\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\bk3d cluster delete asciiartify-poc"
+  - delay: 1280
+    content: "\r\n\e[?2004l\r"
+  - delay: 165
+    content: "\e[36mINFO\e[0m[0000] Deleting cluster 'asciiartify-poc'           \r\n"
+  - delay: 653
+    content: "error: lost connection to pod\r\n"
+  - delay: 2748
+    content: "\e[36mINFO\e[0m[0003] Deleting cluster network 'k3d-asciiartify-poc' \r\n"
+  - delay: 1234
+    content: "\e[36mINFO\e[0m[0004] Deleting 1 attached volumes...               \r\n"
+  - delay: 38
+    content: "\e[36mINFO\e[0m[0004] Removing cluster details from default kubeconfig... \r\n"
+  - delay: 6
+    content: "\e[36mINFO\e[0m[0004] Removing standalone kubeconfig file (if there is one)... \r\n\e[36mINFO\e[0m[0004] Successfully deleted cluster asciiartify-poc! \r\n[1]+  Exit 1                  kubectl port-forward service/hello-world-service 8080:80\r\n\e[?2004h\e]0;o0rt@devops-lpt: /mnt/y/bdsm/learning/AsciiArtify\a\e[01;32mo0rt@devops-lpt\e[00m:\e[01;34m/mnt/y/bdsm/learning/AsciiArtify\e[00m$ "
+  - delay: 4186
+    content: "\e[?2004l\r\r\nlogout\r\n"

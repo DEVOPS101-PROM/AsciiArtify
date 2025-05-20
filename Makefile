@@ -263,15 +263,20 @@ seed-create: check-backend check-k3d check-kubectl
 		k3d cluster create $(K3D_CLUSTER_NAME) \
 			--api-port 56443 \
 			--servers 1 \
-			# --agents 2 \
+			--agents 1 \
 			--port 80:80@loadbalancer \
 			--port 443:443@loadbalancer \
-			# --k3s-arg '--disable=traefik@server:0' \
-			# --k3s-arg '--tls-san=127.0.0.1@server:0' \
+			--k3s-arg '--tls-san=127.0.0.1@server:0' \
 			--wait; \
 		echo "Updating kubeconfig..."; \
 		k3d kubeconfig merge $(K3D_CLUSTER_NAME) --kubeconfig-switch-context; \
 		echo "k3d cluster created successfully"; \
+		echo ""; \
+		echo "Published ports:"; \
+		echo "  - HTTP: 80"; \
+		echo "  - HTTPS: 443"; \
+		echo "  - kubectl proxy: 8001"; \
+		echo "  - Development ports: 8080-3010"; \
 	fi
 
 seed-destroy: check-backend check-k3d check-kubectl
@@ -313,7 +318,22 @@ seed-argoctl: check-kubectl
 	@rm argocd-linux-amd64
 	@echo "ArgoCD CLI installed successfully"
 
-seed-proxy: seed-argocd check-kubectl
+seed-proxy: check-kubectl
+	@echo "Checking ArgoCD installation..."
+	@if ! kubectl get namespace $(ARGOCD_NAMESPACE) >/dev/null 2>&1; then \
+		echo "ArgoCD namespace not found. Installing ArgoCD..."; \
+		$(MAKE) seed-argocd; \
+	fi
+	@if ! kubectl get deployment argocd-server -n $(ARGOCD_NAMESPACE) >/dev/null 2>&1; then \
+		echo "ArgoCD server not found. Installing ArgoCD..."; \
+		$(MAKE) seed-argocd; \
+	fi
+	@echo "Checking ArgoCD server status..."
+	@if ! kubectl get deployment argocd-server -n $(ARGOCD_NAMESPACE) -o jsonpath='{.status.availableReplicas}' | grep -q "1"; then \
+		echo "Waiting for ArgoCD server to be ready..."; \
+		kubectl wait --for=condition=available --timeout=30s deployment/argocd-server -n $(ARGOCD_NAMESPACE); \
+	fi
 	@echo "Starting kubectl proxy for ArgoCD UI..."
 	@echo "ArgoCD UI will be available at: http://localhost:8001/api/v1/namespaces/$(ARGOCD_NAMESPACE)/services/argocd-server:80/proxy"
-	@kubectl proxy
+	@echo "Press Ctrl+C to stop the proxy"
+	@kubectl proxy --port=3007 --address='0.0.0.0' --accept-hosts='.*'

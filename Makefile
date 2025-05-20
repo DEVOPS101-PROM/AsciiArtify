@@ -2,7 +2,11 @@
 BACKEND ?= docker
 K3D_VERSION ?= v5.6.0
 KUBECTL_VERSION ?= v1.29.2
-HELM_VERSION ?= v3.14.2
+HELM_VERSION ?= v3.17.3
+ARGOCD_VERSION ?= v2.9.3
+K3D_CLUSTER_NAME ?= local-cluster
+ARGOCD_NAMESPACE ?= argocd
+ARGOCD_SECRET ?= argocd-secret
 
 # Colors
 GREEN := \033[0;32m
@@ -29,7 +33,7 @@ else
     $(error Unsupported architecture: $(UNAME_M))
 endif
 
-.PHONY: help check-backend check-k3d check-kubectl check-helm install-k3d install-kubectl install-helm update-kubectl update-helm all remove-k3d remove-kubectl remove-helm clear system-check
+.PHONY: help check-backend check-k3d check-kubectl check-helm install-k3d install-kubectl install-helm update-kubectl update-helm all remove-k3d remove-kubectl remove-helm clear system-check seed seed-create seed-destroy seed-argocd seed-argoctl seed-proxy
 
 help:
 	@echo "Available commands:"
@@ -37,6 +41,14 @@ help:
 	@echo "  make all         - Check and install all components"
 	@echo "  make system-check - Check system for all components"
 	@echo "  make clear       - Remove all components"
+	@echo "  make seed        - Create and setup k3d cluster with ArgoCD"
+	@echo ""
+	@echo "Seed commands:"
+	@echo "  make seed-create  - Create k3d cluster"
+	@echo "  make seed-destroy - Destroy k3d cluster"
+	@echo "  make seed-argocd  - Install ArgoCD in the cluster"
+	@echo "  make seed-argoctl - Install ArgoCD CLI"
+	@echo "  make seed-proxy   - Start kubectl proxy for ArgoCD UI"
 	@echo ""
 	@echo "Installation commands:"
 	@echo "  make install-k3d     - Install k3d"
@@ -161,8 +173,9 @@ check-helm:
 		$(MAKE) install-helm; \
 	else \
 		CURRENT_VERSION=$$(helm version --template='{{.Version}}' | cut -d'v' -f2); \
-		if [ "$$CURRENT_VERSION" != "$(HELM_VERSION:v%=%)" ]; then \
-			echo "helm version $$CURRENT_VERSION is outdated. Current version is $(HELM_VERSION:v%=%)"; \
+		TARGET_VERSION=$$(echo $(HELM_VERSION) | cut -d'v' -f2); \
+		if [ "$$CURRENT_VERSION" != "$$TARGET_VERSION" ]; then \
+			echo "helm version $$CURRENT_VERSION is outdated. Current version is $$TARGET_VERSION"; \
 			read -p "Do you want to update helm? (y/n) " answer; \
 			if [ "$$answer" = "y" ]; then \
 				$(MAKE) update-helm; \
@@ -234,5 +247,73 @@ remove-helm:
 		echo "helm is not installed."; \
 	fi
 
-clear: remove-k3d remove-kubectl remove-helm
-	@echo "All components have been removed." 
+clear: seed-destroy remove-k3d remove-kubectl remove-helm 
+	@echo "All components have been removed."
+
+# Seed targets
+seed: seed-create seed-argocd seed-argoctl
+	@echo "Seed setup completed successfully"
+
+seed-create: check-backend check-k3d check-kubectl
+	@echo "Checking k3d cluster status..."
+	@if k3d cluster list | grep -q "$(K3D_CLUSTER_NAME)"; then \
+		echo "Cluster $(K3D_CLUSTER_NAME) already exists, skipping creation..."; \
+	else \
+		echo "Creating k3d cluster..."; \
+		k3d cluster create $(K3D_CLUSTER_NAME) \
+			--api-port 56443 \
+			--servers 1 \
+			# --agents 2 \
+			--port 80:80@loadbalancer \
+			--port 443:443@loadbalancer \
+			# --k3s-arg '--disable=traefik@server:0' \
+			# --k3s-arg '--tls-san=127.0.0.1@server:0' \
+			--wait; \
+		echo "Updating kubeconfig..."; \
+		k3d kubeconfig merge $(K3D_CLUSTER_NAME) --kubeconfig-switch-context; \
+		echo "k3d cluster created successfully"; \
+	fi
+
+seed-destroy: check-backend check-k3d check-kubectl
+	@echo "Destroying k3d cluster..."
+	@if k3d cluster list | grep -q "$(K3D_CLUSTER_NAME)"; then \
+		k3d cluster delete $(K3D_CLUSTER_NAME); \
+		echo "k3d cluster destroyed successfully"; \
+	else \
+		echo "Cluster $(K3D_CLUSTER_NAME) does not exist, nothing to destroy."; \
+	fi
+
+seed-argocd: seed-create check-kubectl check-helm
+	@echo "Installing ArgoCD..."
+	@kubectl config use-context k3d-$(K3D_CLUSTER_NAME)
+	@kubectl create namespace $(ARGOCD_NAMESPACE) --dry-run=client -o yaml | kubectl apply -f -
+	@kubectl apply -n $(ARGOCD_NAMESPACE) -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+	@if [ -n "$(ARGOCD_SECRET)" ] && [ -f "$(ARGOCD_SECRET)" ]; then \
+		echo "Applying custom secret from $(ARGOCD_SECRET)..."; \
+		kubectl apply -f $(ARGOCD_SECRET) -n $(ARGOCD_NAMESPACE); \
+	else \
+		echo "Creating default ArgoCD admin credentials..."; \
+		kubectl -n $(ARGOCD_NAMESPACE) create secret generic argocd-initial-admin-secret \
+			--from-literal=username=admin \
+			--from-literal=password=admin \
+			--dry-run=client -o yaml | kubectl apply -f -; \
+		echo "Default ArgoCD credentials:"; \
+		echo "Username: admin"; \
+		echo "Password: admin"; \
+	fi
+	@echo "Waiting for ArgoCD to be ready..."
+	@kubectl wait --for=condition=available --timeout=300s deployment/argocd-server -n $(ARGOCD_NAMESPACE)
+	@echo "ArgoCD installed successfully"
+	@echo "You can access ArgoCD UI at: http://localhost:8001/api/v1/namespaces/$(ARGOCD_NAMESPACE)/services/argocd-server:80/proxy"
+
+seed-argoctl: check-kubectl
+	@echo "Installing ArgoCD CLI..."
+	@curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/download/$(ARGOCD_VERSION)/argocd-linux-amd64
+	@sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
+	@rm argocd-linux-amd64
+	@echo "ArgoCD CLI installed successfully"
+
+seed-proxy: seed-argocd check-kubectl
+	@echo "Starting kubectl proxy for ArgoCD UI..."
+	@echo "ArgoCD UI will be available at: http://localhost:8001/api/v1/namespaces/$(ARGOCD_NAMESPACE)/services/argocd-server:80/proxy"
+	@kubectl proxy

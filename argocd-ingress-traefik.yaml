@@ -1,0 +1,29 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: argocd-server
+  namespace: argocd
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`argocd.${LOCAL_IP}.nip.io`)
+      services:
+        - name: argocd-server
+          port: 80
+      middlewares:
+        - name: argocd-server-strip-prefix
+          namespace: argocd
+  tls:
+    secretName: argocd-secret
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: argocd-server-strip-prefix
+  namespace: argocd
+spec:
+  stripPrefix:
+    prefixes:
+      - /argocd

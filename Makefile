@@ -8,12 +8,14 @@ K3D_CLUSTER_NAME ?= local-cluster
 ARGOCD_NAMESPACE ?= argocd
 ARGOCD_SECRET ?= argocd-secret
 ACCESS_TYPE ?= loadbalancer # Options: loadbalancer, ingress
-LOCAL_IP ?= $(shell hostname -I | awk '{print $$1}')
+# Get outbound IP address - this is the most reliable way to get the IP that can reach external networks
+LOCAL_IP := $(shell ip route get 1 | awk '{print $$7; exit}')
 
-# Colors
-GREEN := \033[0;32m
-RED := \033[0;31m
-NC := \033[0m # No Color
+# Colors (ANSI escape codes that work in both bash and zsh)
+GREEN := $$(printf "\033[32m")
+RED := $$(printf "\033[31m")
+NC := $$(printf "\033[0m") # No Color
+NEWLINE := $$(printf "\n")
 
 # Detect OS
 UNAME_S := $(shell uname -s)
@@ -70,47 +72,47 @@ system-check:
 	@echo "===================="
 	@# Check Docker
 	@if command -v docker >/dev/null 2>&1; then \
-		echo -e "Docker: $(GREEN)Installed$(NC) ($$(docker --version))"; \
+		echo "Docker: $(GREEN)Installed$(NC) ($$(docker --version))"; \
 	else \
-		echo -e "Docker: $(RED)Not Installed$(NC)"; \
+		echo "Docker: $(RED)Not Installed$(NC)"; \
 	fi
 	@# Check Podman
 	@if command -v podman >/dev/null 2>&1; then \
-		echo -e "Podman: $(GREEN)Installed$(NC) ($$(podman --version))"; \
+		echo "Podman: $(GREEN)Installed$(NC) ($$(podman --version))"; \
 	else \
-		echo -e "Podman: $(RED)Not Installed$(NC)"; \
+		echo "Podman: $(RED)Not Installed$(NC)"; \
 	fi
 	@# Check k3d
 	@if command -v k3d >/dev/null 2>&1; then \
-		echo -e "k3d: $(GREEN)Installed$(NC) ($$(k3d version))"; \
+		echo "k3d: $(GREEN)Installed$(NC) ($$(k3d version))"; \
 	else \
-		echo -e "k3d: $(RED)Not Installed$(NC)"; \
+		echo "k3d: $(RED)Not Installed$(NC)"; \
 	fi
 	@# Check kubectl
 	@if command -v kubectl >/dev/null 2>&1; then \
-		echo -e "kubectl: $(GREEN)Installed$(NC) ($$(kubectl version --client -o json | grep -o '"gitVersion": "[^"]*"' | cut -d'"' -f4))"; \
+		echo "kubectl: $(GREEN)Installed$(NC) ($$(kubectl version --client -o json | grep -o '"gitVersion": "[^"]*"' | cut -d'"' -f4))"; \
 	else \
-		echo -e "kubectl: $(RED)Not Installed$(NC)"; \
+		echo "kubectl: $(RED)Not Installed$(NC)"; \
 	fi
 	@# Check helm
 	@if command -v helm >/dev/null 2>&1; then \
-		echo -e "helm: $(GREEN)Installed$(NC) ($$(helm version --template='{{.Version}}'))"; \
+		echo "helm: $(GREEN)Installed$(NC) ($$(helm version --template='{{.Version}}'))"; \
 	else \
-		echo -e "helm: $(RED)Not Installed$(NC)"; \
+		echo "helm: $(RED)Not Installed$(NC)"; \
 	fi
 	@echo ""
 	@echo "Missing components:"
 	@if ! command -v docker >/dev/null 2>&1 && ! command -v podman >/dev/null 2>&1; then \
-		echo -e "$(RED)No container backend (Docker or Podman) is installed$(NC)"; \
+		echo "$(RED)No container backend (Docker or Podman) is installed$(NC)"; \
 	fi
 	@if ! command -v k3d >/dev/null 2>&1; then \
-		echo -e "$(RED)k3d is not installed$(NC)"; \
+		echo "$(RED)k3d is not installed$(NC)"; \
 	fi
 	@if ! command -v kubectl >/dev/null 2>&1; then \
-		echo -e "$(RED)kubectl is not installed$(NC)"; \
+		echo "$(RED)kubectl is not installed$(NC)"; \
 	fi
 	@if ! command -v helm >/dev/null 2>&1; then \
-		echo -e "$(RED)helm is not installed$(NC)"; \
+		echo "$(RED)helm is not installed$(NC)"; \
 	fi
 	@echo ""
 	@echo "To install missing components, run: make all"
@@ -253,7 +255,7 @@ clear: seed-destroy remove-k3d remove-kubectl remove-helm
 	@echo "All components have been removed."
 
 # Seed targets
-seed: seed-create seed-argocd seed-argoctl
+seed: seed-create seed-argocd
 	@echo "Seed setup completed successfully"
 
 seed-create: check-backend check-k3d check-kubectl
@@ -267,6 +269,8 @@ seed-create: check-backend check-k3d check-kubectl
 			--servers 1 \
 			--agents 1 \
 			--k3s-arg '--tls-san=127.0.0.1@server:0' \
+			--port '80:80@loadbalancer' \
+			--port '443:443@loadbalancer' \
 			--wait; \
 		echo "Updating kubeconfig..."; \
 		k3d kubeconfig merge $(K3D_CLUSTER_NAME) --kubeconfig-switch-context; \
@@ -292,43 +296,21 @@ seed-argocd: seed-create check-kubectl check-helm
 		echo "Applying custom secret from $(ARGOCD_SECRET)..."; \
 		kubectl apply -f $(ARGOCD_SECRET) -n $(ARGOCD_NAMESPACE); \
 	fi
+	
 	@echo "Waiting for ArgoCD to be ready..."
 	@kubectl wait --for=condition=available --timeout=300s deployment/argocd-server -n $(ARGOCD_NAMESPACE)
 	
-	@echo "Installing NGINX Ingress Controller..."
-	@kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/cloud/deploy.yaml
-	@echo "Waiting for Ingress Controller to be ready..."
-	@kubectl wait --namespace ingress-nginx --for=condition=ready pod --selector=app.kubernetes.io/component=controller --timeout=120s
+	@echo "Configuring ArgoCD server..."
+	@kubectl -n $(ARGOCD_NAMESPACE) patch deployment argocd-server --patch '{"spec": {"template": {"spec": {"containers": [{"name": "argocd-server","command": ["/usr/local/bin/argocd-server"],"args": ["--insecure","--staticassets","/shared/app"]}]}}}}'
 	
 	@echo "Configuring ArgoCD Ingress..."
-	@echo "apiVersion: networking.k8s.io/v1" > /tmp/argocd-ingress.yaml
-	@echo "kind: Ingress" >> /tmp/argocd-ingress.yaml
-	@echo "metadata:" >> /tmp/argocd-ingress.yaml
-	@echo "  name: argocd-server-ingress" >> /tmp/argocd-ingress.yaml
-	@echo "  namespace: $(ARGOCD_NAMESPACE)" >> /tmp/argocd-ingress.yaml
-	@echo "  annotations:" >> /tmp/argocd-ingress.yaml
-	@echo "    nginx.ingress.kubernetes.io/ssl-passthrough: \"true\"" >> /tmp/argocd-ingress.yaml
-	@echo "    nginx.ingress.kubernetes.io/backend-protocol: \"HTTPS\"" >> /tmp/argocd-ingress.yaml
-	@echo "spec:" >> /tmp/argocd-ingress.yaml
-	@echo "  ingressClassName: nginx" >> /tmp/argocd-ingress.yaml
-	@echo "  rules:" >> /tmp/argocd-ingress.yaml
-	@echo "  - host: argocd.$(LOCAL_IP).nip.io" >> /tmp/argocd-ingress.yaml
-	@echo "    http:" >> /tmp/argocd-ingress.yaml
-	@echo "      paths:" >> /tmp/argocd-ingress.yaml
-	@echo "      - path: /" >> /tmp/argocd-ingress.yaml
-	@echo "        pathType: Prefix" >> /tmp/argocd-ingress.yaml
-	@echo "        backend:" >> /tmp/argocd-ingress.yaml
-	@echo "          service:" >> /tmp/argocd-ingress.yaml
-	@echo "            name: argocd-server" >> /tmp/argocd-ingress.yaml
-	@echo "            port:" >> /tmp/argocd-ingress.yaml
-	@echo "              name: https" >> /tmp/argocd-ingress.yaml
-	@kubectl apply -f /tmp/argocd-ingress.yaml
-	@rm /tmp/argocd-ingress.yaml
-	@echo "Ingress configured for: https://argocd.$(LOCAL_IP).nip.io"
-
+	@export LOCAL_IP=$(LOCAL_IP) && \
+	envsubst < argocd-ingress-traefik.yaml | kubectl apply -f -
+	@echo "Ingress configured for: https://argocd.$(LOCAL_IP).nip.io/argocd"
+	
 	@echo "Waiting for ArgoCD to initialize..."
 	@sleep 10
-	@echo "\n\n~~~~~~~~"
+	@printf "$(NEWLINE)$(NEWLINE)~~~~~~~~$(NEWLINE)"
 	@echo "Current ArgoCD credentials:"
 	@echo "Username: $(GREEN)admin$(NC)"
 	@if [ -n "$(ARGOCD_SECRET)" ] && [ -f "$(ARGOCD_SECRET)" ]; then \
@@ -336,9 +318,10 @@ seed-argocd: seed-create check-kubectl check-helm
 	else \
 		echo "Password: $(RED)$$(kubectl -n $(ARGOCD_NAMESPACE) get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)$(NC)"; \
 	fi
-	@echo "~~~~~~~~\n\n"
-	@echo "ArgoCD UI is available at: https://argocd.$(LOCAL_IP).nip.io"
-	@echo "Note: You might need to accept the self-signed certificate in your browser"
+	@printf "~~~~~~~~$(NEWLINE)$(NEWLINE)"
+	@echo "ArgoCD UI is available at: https://argocd.$(LOCAL_IP).nip.io/argocd"
+	@echo "Note: The URL uses your local IP address with nip.io for automatic DNS resolution"
+	@echo "Note: The connection is secured with ArgoCD's self-signed certificate"
 
 seed-argoctl: check-kubectl
 	@echo "Installing ArgoCD CLI..."

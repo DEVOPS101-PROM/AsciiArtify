@@ -7,6 +7,8 @@ ARGOCD_VERSION ?= v2.9.3
 K3D_CLUSTER_NAME ?= local-cluster
 ARGOCD_NAMESPACE ?= argocd
 ARGOCD_SECRET ?= argocd-secret
+ACCESS_TYPE ?= loadbalancer # Options: loadbalancer, ingress
+LOCAL_IP ?= $(shell hostname -I | awk '{print $$1}')
 
 # Colors
 GREEN := \033[0;32m
@@ -259,24 +261,19 @@ seed-create: check-backend check-k3d check-kubectl
 	@if k3d cluster list | grep -q "$(K3D_CLUSTER_NAME)"; then \
 		echo "Cluster $(K3D_CLUSTER_NAME) already exists, skipping creation..."; \
 	else \
-		echo "Creating k3d cluster..."; \
+		echo "Creating k3d cluster with $(ACCESS_TYPE) access..."; \
 		k3d cluster create $(K3D_CLUSTER_NAME) \
 			--api-port 56443 \
 			--servers 1 \
 			--agents 1 \
+			--k3s-arg '--tls-san=127.0.0.1@server:0' \
 			--port 80:80@loadbalancer \
 			--port 443:443@loadbalancer \
-			--k3s-arg '--tls-san=127.0.0.1@server:0' \
 			--wait; \
 		echo "Updating kubeconfig..."; \
 		k3d kubeconfig merge $(K3D_CLUSTER_NAME) --kubeconfig-switch-context; \
 		echo "k3d cluster created successfully"; \
 		echo ""; \
-		echo "Published ports:"; \
-		echo "  - HTTP: 80"; \
-		echo "  - HTTPS: 443"; \
-		echo "  - kubectl proxy: 8001"; \
-		echo "  - Development ports: 8080-3010"; \
 	fi
 
 seed-destroy: check-backend check-k3d check-kubectl
@@ -290,26 +287,87 @@ seed-destroy: check-backend check-k3d check-kubectl
 
 seed-argocd: seed-create check-kubectl check-helm
 	@echo "Installing ArgoCD..."
+	@echo "Debug: ACCESS_TYPE = '$(ACCESS_TYPE)'"
 	@kubectl config use-context k3d-$(K3D_CLUSTER_NAME)
 	@kubectl create namespace $(ARGOCD_NAMESPACE) --dry-run=client -o yaml | kubectl apply -f -
 	@kubectl apply -n $(ARGOCD_NAMESPACE) -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 	@if [ -n "$(ARGOCD_SECRET)" ] && [ -f "$(ARGOCD_SECRET)" ]; then \
 		echo "Applying custom secret from $(ARGOCD_SECRET)..."; \
 		kubectl apply -f $(ARGOCD_SECRET) -n $(ARGOCD_NAMESPACE); \
-	else \
-		echo "Creating default ArgoCD admin credentials..."; \
-		kubectl -n $(ARGOCD_NAMESPACE) create secret generic argocd-initial-admin-secret \
-			--from-literal=username=admin \
-			--from-literal=password=admin \
-			--dry-run=client -o yaml | kubectl apply -f -; \
-		echo "Default ArgoCD credentials:"; \
-		echo "Username: admin"; \
-		echo "Password: admin"; \
 	fi
 	@echo "Waiting for ArgoCD to be ready..."
 	@kubectl wait --for=condition=available --timeout=300s deployment/argocd-server -n $(ARGOCD_NAMESPACE)
-	@echo "ArgoCD installed successfully"
-	@echo "You can access ArgoCD UI at: http://localhost:8001/api/v1/namespaces/$(ARGOCD_NAMESPACE)/services/argocd-server:80/proxy"
+	
+	@echo "Debug: Checking access type..."
+	@if [ "$(ACCESS_TYPE)" = "loadbalancer" ]; then \
+		echo "Debug: Using LoadBalancer configuration"; \
+		echo "Configuring ArgoCD for LoadBalancer access..."; \
+		kubectl patch svc argocd-server -n $(ARGOCD_NAMESPACE) -p '{"spec": {"type": "LoadBalancer"}}'; \
+		echo "Waiting for LoadBalancer IP..."; \
+		until kubectl get svc argocd-server -n $(ARGOCD_NAMESPACE) -o jsonpath='{.status.loadBalancer.ingress[0].ip}' | grep -q .; do sleep 1; done; \
+		LB_IP=$$(kubectl get svc argocd-server -n $(ARGOCD_NAMESPACE) -o jsonpath='{.status.loadBalancer.ingress[0].ip}'); \
+		echo "LoadBalancer IP: $$LB_IP"; \
+	elif [ "$(ACCESS_TYPE)" = "ingress" ]; then \
+		echo "Debug: Using Ingress configuration"; \
+		echo "Installing NGINX Ingress Controller..."; \
+		kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/cloud/deploy.yaml; \
+		echo "Waiting for Ingress Controller to be ready..."; \
+		kubectl wait --namespace ingress-nginx --for=condition=ready pod --selector=app.kubernetes.io/component=controller --timeout=120s; \
+		echo "Configuring ArgoCD Ingress..."; \
+		echo "apiVersion: networking.k8s.io/v1" > /tmp/argocd-ingress.yaml; \
+		echo "kind: Ingress" >> /tmp/argocd-ingress.yaml; \
+		echo "metadata:" >> /tmp/argocd-ingress.yaml; \
+		echo "  name: argocd-server-ingress" >> /tmp/argocd-ingress.yaml; \
+		echo "  namespace: $(ARGOCD_NAMESPACE)" >> /tmp/argocd-ingress.yaml; \
+		echo "  annotations:" >> /tmp/argocd-ingress.yaml; \
+		echo "    nginx.ingress.kubernetes.io/ssl-passthrough: \"true\"" >> /tmp/argocd-ingress.yaml; \
+		echo "    nginx.ingress.kubernetes.io/backend-protocol: \"HTTPS\"" >> /tmp/argocd-ingress.yaml; \
+		echo "spec:" >> /tmp/argocd-ingress.yaml; \
+		echo "  ingressClassName: nginx" >> /tmp/argocd-ingress.yaml; \
+		echo "  rules:" >> /tmp/argocd-ingress.yaml; \
+		echo "  - host: argocd.$(LOCAL_IP).nip.io" >> /tmp/argocd-ingress.yaml; \
+		echo "    http:" >> /tmp/argocd-ingress.yaml; \
+		echo "      paths:" >> /tmp/argocd-ingress.yaml; \
+		echo "      - path: /" >> /tmp/argocd-ingress.yaml; \
+		echo "        pathType: Prefix" >> /tmp/argocd-ingress.yaml; \
+		echo "        backend:" >> /tmp/argocd-ingress.yaml; \
+		echo "          service:" >> /tmp/argocd-ingress.yaml; \
+		echo "            name: argocd-server" >> /tmp/argocd-ingress.yaml; \
+		echo "            port:" >> /tmp/argocd-ingress.yaml; \
+		echo "              name: https" >> /tmp/argocd-ingress.yaml; \
+		kubectl apply -f /tmp/argocd-ingress.yaml; \
+		rm /tmp/argocd-ingress.yaml; \
+		echo "Ingress configured for: https://argocd.$(LOCAL_IP).nip.io"; \
+	else \
+		echo "Debug: Invalid ACCESS_TYPE: '$(ACCESS_TYPE)'"; \
+		echo "Using default LoadBalancer configuration"; \
+		echo "Configuring ArgoCD for LoadBalancer access..."; \
+		kubectl patch svc argocd-server -n $(ARGOCD_NAMESPACE) -p '{"spec": {"type": "LoadBalancer"}}'; \
+		echo "Waiting for LoadBalancer IP..."; \
+		until kubectl get svc argocd-server -n $(ARGOCD_NAMESPACE) -o jsonpath='{.status.loadBalancer.ingress[0].ip}' | grep -q .; do sleep 1; done; \
+		LB_IP=$$(kubectl get svc argocd-server -n $(ARGOCD_NAMESPACE) -o jsonpath='{.status.loadBalancer.ingress[0].ip}'); \
+		echo "LoadBalancer IP: $$LB_IP"; \
+	fi
+
+	@echo "Waiting for ArgoCD to initialize..."
+	@sleep 10
+	@echo "\n\n~~~~~~~~"
+	@echo "Current ArgoCD credentials:"
+	@echo "Username: $(GREEN)admin$(NC)"
+	@if [ -n "$(ARGOCD_SECRET)" ] && [ -f "$(ARGOCD_SECRET)" ]; then \
+		echo "Using custom password from $(RED)$(ARGOCD_SECRET)$(NC)"; \
+	else \
+		echo "Password: $(RED)$$(kubectl -n $(ARGOCD_NAMESPACE) get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)$(NC)"; \
+	fi
+	@echo "~~~~~~~~\n\n"
+	@if [ "$(ACCESS_TYPE)" = "loadbalancer" ]; then \
+		echo "ArgoCD UI is available at: https://$$LB_IP"; \
+	elif [ "$(ACCESS_TYPE)" = "ingress" ]; then \
+		echo "ArgoCD UI is available at: https://argocd.$(LOCAL_IP).nip.io"; \
+	else \
+		echo "ArgoCD UI is available at: https://$$LB_IP"; \
+	fi
+	@echo "Note: You might need to accept the self-signed certificate in your browser"
 
 seed-argoctl: check-kubectl
 	@echo "Installing ArgoCD CLI..."
@@ -333,7 +391,7 @@ seed-proxy: check-kubectl
 		echo "Waiting for ArgoCD server to be ready..."; \
 		kubectl wait --for=condition=available --timeout=30s deployment/argocd-server -n $(ARGOCD_NAMESPACE); \
 	fi
-	@echo "Starting kubectl proxy for ArgoCD UI..."
-	@echo "ArgoCD UI will be available at: http://localhost:8001/api/v1/namespaces/$(ARGOCD_NAMESPACE)/services/argocd-server:80/proxy"
-	@echo "Press Ctrl+C to stop the proxy"
-	@kubectl proxy --port=3007 --address='0.0.0.0' --accept-hosts='.*'
+	@echo "Starting port-forward for ArgoCD UI..."
+	@echo "ArgoCD UI will be available at: https://localhost:8080"
+	@echo "Press Ctrl+C to stop the port-forward"
+	@kubectl port-forward -n $(ARGOCD_NAMESPACE) svc/argocd-server 8080:443

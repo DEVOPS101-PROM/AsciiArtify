@@ -1,0 +1,731 @@
+# The configurations that used for the recording, feel free to edit them
+config:
+
+  # Specify a command to be executed
+  # like `/bin/bash -l`, `ls`, or any other commands
+  # the default is bash for Linux
+  # or powershell.exe for Windows
+  command: bash -l
+
+  # Specify the current working directory path
+  # the default is the current working directory path
+  cwd: learning/AsciiArtify
+
+  # Export additional ENV variables
+  env:
+    recording: true
+
+  # Explicitly set the number of columns
+  # or use `auto` to take the current
+  # number of columns of your shell
+  cols: 307
+
+  # Explicitly set the number of rows
+  # or use `auto` to take the current
+  # number of rows of your shell
+  rows: 38
+
+  # Amount of times to repeat GIF
+  # If value is -1, play once
+  # If value is 0, loop indefinitely
+  # If value is a positive number, loop n times
+  repeat: 0
+
+  # Quality
+  # 1 - 100
+  quality: 100
+
+  # Delay between frames in ms
+  # If the value is `auto` use the actual recording delays
+  frameDelay: auto
+
+  # Maximum delay between frames in ms
+  # Ignored if the `frameDelay` isn't set to `auto`
+  # Set to `auto` to prevent limiting the max idle time
+  maxIdleTime: 2000
+
+  # The surrounding frame box
+  # The `type` can be null, window, floating, or solid`
+  # To hide the title use the value null
+  # Don't forget to add a backgroundColor style with a null as type
+  frameBox:
+    type: floating
+    title: Terminalizer
+    style:
+      border: 0px black solid
+      # boxShadow: none
+      # margin: 0px
+
+      # Add a watermark image to the rendered gif
+      # You need to specify an absolute path for
+      # the image on your machine or a URL, and you can also
+      # add your own CSS styles
+  watermark:
+    imagePath: null
+    style:
+      position: absolute
+      right: 15px
+      bottom: 15px
+      width: 100px
+      opacity: 0.9
+
+  # Cursor style can be one of
+  # `block`, `underline`, or `bar`
+  cursorStyle: block
+
+  # Font family
+  # You can use any font that is installed on your machine
+  # in CSS-like syntax
+  fontFamily: "Monaco, Lucida Console, Ubuntu Mono, Monospace"
+
+  # The size of the font
+  fontSize: 12
+
+  # The height of lines
+  lineHeight: 1
+
+  # The spacing between letters
+  letterSpacing: 0
+
+  # Theme
+  theme:
+    background: "transparent"
+    foreground: "#afafaf"
+    cursor: "#c7c7c7"
+    black: "#232628"
+    red: "#fc4384"
+    green: "#b3e33b"
+    yellow: "#ffa727"
+    blue: "#75dff2"
+    magenta: "#ae89fe"
+    cyan: "#708387"
+    white: "#d5d5d0"
+    brightBlack: "#626566"
+    brightRed: "#ff7fac"
+    brightGreen: "#c8ed71"
+    brightYellow: "#ebdf86"
+    brightBlue: "#75dff2"
+    brightMagenta: "#ae89fe"
+    brightCyan: "#b1c6ca"
+    brightWhite: "#f9f9f4"
+
+# Records, feel free to edit them
+records:
+- delay: 743
+  content: "\e[?2004h\e]0;o0rt@devops-lpt: learning/AsciiArtify\a\e[01;32mo0rt@devops-lpt\e[00m:\e[01;34mlearning/AsciiArtify\e[00m$ "
+- delay: 8386
+  content: m
+- delay: 174
+  content: a
+- delay: 117
+  content: k
+- delay: 220
+  content: e
+- delay: 251
+  content: ' '
+- delay: 1203
+  content: "\r\n\e[?2004l\r"
+- delay: 13
+  content: "Available commands:\r
+
+    \  make help        - Show this help message\r
+
+    \  make all         - Check and install all components\r
+
+    \  make system-check - Check system for all components\r
+
+    \  make clear       - Remove all components\r
+
+    \  make seed        - Create and setup k3d cluster with ArgoCD\r
+
+    \r
+
+    Seed commands:\r
+
+    \  make seed-create  - Create k3d cluster\r
+
+    \  make seed-destroy - Destroy k3d cluster\r
+
+    \  make seed-argocd  - Install ArgoCD in the cluster\r
+
+    \  make seed-argoctl - Install ArgoCD CLI\r
+
+    \  make seed-proxy   - Start kubectl proxy for ArgoCD UI\r
+
+    \r
+
+    Installation commands:\r
+
+    \  make install-k3d     - Install k3d\r
+
+    \  make install-kubectl - Install kubectl\r
+
+    \  make install-helm    - Install helm\r
+
+    \r
+
+    Removal commands:\r
+
+    \  make remove-k3d     - Remove k3d\r
+
+    \  make remove-kubectl - Remove kubectl\r
+
+    \  make remove-helm    - Remove helm\r
+
+    \r
+
+    Variables:\r
+
+    \  BACKEND=docker|podman - Choose container backend (default: docker)\r
+
+    \e[?2004h\e]0;o0rt@devops-lpt: learning/AsciiArtify\a\e[01;32mo0rt@devops-lpt\e[00m:\e[01;34mlearning/AsciiArtify\e[00m$ "
+- delay: 1536
+  content: m
+- delay: 174
+  content: a
+- delay: 141
+  content: k
+- delay: 174
+  content: e
+- delay: 161
+  content: ' '
+- delay: 404
+  content: s
+- delay: 664
+  content: 'y'
+- delay: 136
+  content: s
+- delay: 105
+  content: t
+- delay: 225
+  content: e
+- delay: 478
+  content: m
+- delay: 360
+  content: '-'
+- delay: 427
+  content: c
+- delay: 123
+  content: h
+- delay: 260
+  content: e
+- delay: 448
+  content: c
+- delay: 114
+  content: k
+- delay: 360
+  content: ' '
+- delay: 2653
+  content: "\r\n\e[?2004l\r"
+- delay: 11
+  content: "System Check Results:\r
+
+    ====================\r\n"
+- delay: 132
+  content: "-e Docker: \e[0;32mInstalled\e[0m  (Docker version 28.1.1, build 4eba377)\r\n"
+- delay: 69
+  content: "-e Podman: \e[0;31mNot Installed\e[0m \r\n"
+- delay: 137
+  content: "-e k3d: \e[0;32mInstalled\e[0m  (k3d version v5.8.3\r
+
+    k3s version v1.31.5-k3s1 (default))\r\n"
+- delay: 219
+  content: "-e kubectl: \e[0;32mInstalled\e[0m  (v1.29.2)\r\n"
+- delay: 356
+  content: "-e helm: \e[0;32mInstalled\e[0m  (v3.17.3)\r
+
+    \r
+
+    Missing components:\r\n"
+- delay: 8
+  content: "\r
+
+    To install missing components, run: make all\r
+
+    \e[?2004h\e]0;o0rt@devops-lpt: learning/AsciiArtify\a\e[01;32mo0rt@devops-lpt\e[00m:\e[01;34mlearning/AsciiArtify\e[00m$ "
+- delay: 1554
+  content: m
+- delay: 230
+  content: a
+- delay: 141
+  content: k
+- delay: 162
+  content: e
+- delay: 187
+  content: ' '
+- delay: 496
+  content: a
+- delay: 499
+  content: l
+- delay: 133
+  content: l
+- delay: 156
+  content: ' '
+- delay: 596
+  content: "\r\n\e[?2004l\r"
+- delay: 13
+  content: "System Check Results:\r
+
+    ====================\r\n"
+- delay: 25
+  content: "-e Docker: \e[0;32mInstalled\e[0m  (Docker version 28.1.1, build 4eba377)\r\n"
+- delay: 73
+  content: "-e Podman: \e[0;31mNot Installed\e[0m \r\n"
+- delay: 46
+  content: "-e k3d: \e[0;32mInstalled\e[0m  (k3d version v5.8.3\r
+
+    k3s version v1.31.5-k3s1 (default))\r\n"
+- delay: 169
+  content: "-e kubectl: \e[0;32mInstalled\e[0m  (v1.29.2)\r\n"
+- delay: 203
+  content: "-e helm: \e[0;32mInstalled\e[0m  (v3.17.3)\r
+
+    \r
+
+    Missing components:\r\n"
+- delay: 6
+  content: "\r
+
+    To install missing components, run: make all\r
+
+    \r
+
+    Starting installation process...\r\n"
+- delay: 5
+  content: "make[1]: Entering directory 'learning/AsciiArtify'\r\n"
+- delay: 6
+  content: "Checking backend...\r\n"
+- delay: 5
+  content: "Backend docker is available.\r
+
+    make[1]: Leaving directory 'learning/AsciiArtify'\r\n"
+- delay: 6
+  content: "make[1]: Entering directory 'learning/AsciiArtify'\r\n"
+- delay: 9
+  content: "Checking k3d installation...\r
+
+    k3d is installed.\r
+
+    make[1]: Leaving directory 'learning/AsciiArtify'\r\n"
+- delay: 6
+  content: "make[1]: Entering directory 'learning/AsciiArtify'\r\n"
+- delay: 6
+  content: "Checking kubectl installation...\r\n"
+- delay: 171
+  content: "kubectl is up to date.\r
+
+    make[1]: Leaving directory 'learning/AsciiArtify'\r\n"
+- delay: 6
+  content: "make[1]: Entering directory 'learning/AsciiArtify'\r\n"
+- delay: 6
+  content: "Checking helm installation...\r\n"
+- delay: 180
+  content: "helm is up to date.\r
+
+    make[1]: Leaving directory 'learning/AsciiArtify'\r
+
+    \e[?2004h\e]0;o0rt@devops-lpt: learning/AsciiArtify\a\e[01;32mo0rt@devops-lpt\e[00m:\e[01;34mlearning/AsciiArtify\e[00m$ "
+- delay: 3366
+  content: m
+- delay: 130
+  content: a
+- delay: 82
+  content: k
+- delay: 201
+  content: e
+- delay: 188
+  content: ' '
+- delay: 690
+  content: s
+- delay: 382
+  content: e
+- delay: 171
+  content: e
+- delay: 174
+  content: d
+- delay: 2135
+  content: ' '
+- delay: 1736
+  content: "\r\n\e[?2004l\r"
+- delay: 15
+  content: "Checking backend...\r
+
+    Backend docker is available.\r
+
+    Checking k3d installation...\r
+
+    k3d is installed.\r
+
+    Checking kubectl installation...\r\n"
+- delay: 202
+  content: "kubectl is up to date.\r
+
+    Checking k3d cluster status...\r\n"
+- delay: 60
+  content: "Creating k3d cluster...\r\n"
+- delay: 53
+  content: "\e[36mINFO\e[0m[0000] Prep: Network                                \r\n"
+- delay: 81
+  content: "\e[36mINFO\e[0m[0000] Created network 'k3d-local-cluster'          \r\n"
+- delay: 18
+  content: "\e[36mINFO\e[0m[0000] Created image volume k3d-local-cluster-images \r\n"
+- delay: 20
+  content: "\e[36mINFO\e[0m[0000] Starting new tools node...                   \r\n"
+- delay: 185
+  content: "\e[36mINFO\e[0m[0000] Starting node 'k3d-local-cluster-tools'      \r\n"
+- delay: 829
+  content: "\e[36mINFO\e[0m[0001] Creating node 'k3d-local-cluster-server-0'   \r\n"
+- delay: 104
+  content: "\e[36mINFO\e[0m[0001] Creating node 'k3d-local-cluster-agent-0'    \r\n"
+- delay: 144
+  content: "\e[36mINFO\e[0m[0001] Creating LoadBalancer 'k3d-local-cluster-serverlb' \r\n"
+- delay: 136
+  content: "\e[36mINFO\e[0m[0001] Using the k3d-tools node to gather environment information \r\n"
+- delay: 778
+  content: "\e[36mINFO\e[0m[0002] Starting new tools node...                   \r\n"
+- delay: 260
+  content: "\e[36mINFO\e[0m[0002] Starting node 'k3d-local-cluster-tools'      \r\n"
+- delay: 1714
+  content: "\e[36mINFO\e[0m[0004] Starting cluster 'local-cluster'             \r
+
+    \e[36mINFO\e[0m[0004] Starting servers...                          \r\n"
+- delay: 320
+  content: "\e[36mINFO\e[0m[0004] Starting node 'k3d-local-cluster-server-0'   \r\n"
+- delay: 4622
+  content: "\e[36mINFO\e[0m[0009] Starting agents...                           \r\n"
+- delay: 355
+  content: "\e[36mINFO\e[0m[0009] Starting node 'k3d-local-cluster-agent-0'    \r\n"
+- delay: 3939
+  content: "\e[36mINFO\e[0m[0013] Starting helpers...                          \r\n"
+- delay: 146
+  content: "\e[36mINFO\e[0m[0013] Starting node 'k3d-local-cluster-serverlb'   \r\n"
+- delay: 6733
+  content: "\e[36mINFO\e[0m[0020] Injecting records for hostAliases (incl. host.k3d.internal) and for 4 network members into CoreDNS configmap... \r\n"
+- delay: 2250
+  content: "\e[36mINFO\e[0m[0022] Cluster 'local-cluster' created successfully! \r\n"
+- delay: 119
+  content: "\e[36mINFO\e[0m[0022] You can now use it like this:                \r
+
+    kubectl cluster-info\r
+
+    Updating kubeconfig...\r\n"
+- delay: 399
+  content: "/home/o0rt/.config/k3d/kubeconfig-local-cluster.yaml\r
+
+    k3d cluster created successfully\r
+
+    \r
+
+    Checking helm installation...\r\n"
+- delay: 331
+  content: "helm is up to date.\r\n"
+- delay: 70
+  content: "Installing ArgoCD...\r\n"
+- delay: 273
+  content: "Switched to context \"k3d-local-cluster\".\r\n"
+- delay: 357
+  content: "namespace/argocd created\r\n"
+- delay: 2519
+  content: "customresourcedefinition.apiextensions.k8s.io/applications.argoproj.io created\r\n"
+- delay: 333
+  content: "customresourcedefinition.apiextensions.k8s.io/applicationsets.argoproj.io created\r\n"
+- delay: 14
+  content: "customresourcedefinition.apiextensions.k8s.io/appprojects.argoproj.io created\r\n"
+- delay: 12
+  content: "serviceaccount/argocd-application-controller created\r\n"
+- delay: 12
+  content: "serviceaccount/argocd-applicationset-controller created\r\n"
+- delay: 11
+  content: "serviceaccount/argocd-dex-server created\r\n"
+- delay: 14
+  content: "serviceaccount/argocd-notifications-controller created\r\n"
+- delay: 12
+  content: "serviceaccount/argocd-redis created\r\n"
+- delay: 18
+  content: "serviceaccount/argocd-repo-server created\r\n"
+- delay: 21
+  content: "serviceaccount/argocd-server created\r\n"
+- delay: 13
+  content: "role.rbac.authorization.k8s.io/argocd-application-controller created\r\n"
+- delay: 12
+  content: "role.rbac.authorization.k8s.io/argocd-applicationset-controller created\r\n"
+- delay: 13
+  content: "role.rbac.authorization.k8s.io/argocd-dex-server created\r\n"
+- delay: 13
+  content: "role.rbac.authorization.k8s.io/argocd-notifications-controller created\r\n"
+- delay: 12
+  content: "role.rbac.authorization.k8s.io/argocd-redis created\r\n"
+- delay: 12
+  content: "role.rbac.authorization.k8s.io/argocd-server created\r\n"
+- delay: 9
+  content: "clusterrole.rbac.authorization.k8s.io/argocd-application-controller created\r\n"
+- delay: 10
+  content: "clusterrole.rbac.authorization.k8s.io/argocd-applicationset-controller created\r\n"
+- delay: 9
+  content: "clusterrole.rbac.authorization.k8s.io/argocd-server created\r\n"
+- delay: 13
+  content: "rolebinding.rbac.authorization.k8s.io/argocd-application-controller created\r\n"
+- delay: 14
+  content: "rolebinding.rbac.authorization.k8s.io/argocd-applicationset-controller created\r\n"
+- delay: 11
+  content: "rolebinding.rbac.authorization.k8s.io/argocd-dex-server created\r\n"
+- delay: 13
+  content: "rolebinding.rbac.authorization.k8s.io/argocd-notifications-controller created\r\n"
+- delay: 14
+  content: "rolebinding.rbac.authorization.k8s.io/argocd-redis created\r\n"
+- delay: 15
+  content: "rolebinding.rbac.authorization.k8s.io/argocd-server created\r\n"
+- delay: 8
+  content: "clusterrolebinding.rbac.authorization.k8s.io/argocd-application-controller created\r\n"
+- delay: 8
+  content: "clusterrolebinding.rbac.authorization.k8s.io/argocd-applicationset-controller created\r\n"
+- delay: 9
+  content: "clusterrolebinding.rbac.authorization.k8s.io/argocd-server created\r\n"
+- delay: 19
+  content: "configmap/argocd-cm created\r\n"
+- delay: 16
+  content: "configmap/argocd-cmd-params-cm created\r\n"
+- delay: 12
+  content: "configmap/argocd-gpg-keys-cm created\r\n"
+- delay: 12
+  content: "configmap/argocd-notifications-cm created\r\n"
+- delay: 13
+  content: "configmap/argocd-rbac-cm created\r\n"
+- delay: 16
+  content: "configmap/argocd-ssh-known-hosts-cm created\r\n"
+- delay: 21
+  content: "configmap/argocd-tls-certs-cm created\r\n"
+- delay: 16
+  content: "secret/argocd-notifications-secret created\r\n"
+- delay: 13
+  content: "secret/argocd-secret created\r\n"
+- delay: 17
+  content: "service/argocd-applicationset-controller created\r\n"
+- delay: 21
+  content: "service/argocd-dex-server created\r\n"
+- delay: 29
+  content: "service/argocd-metrics created\r\n"
+- delay: 28
+  content: "service/argocd-notifications-controller-metrics created\r\n"
+- delay: 21
+  content: "service/argocd-redis created\r\n"
+- delay: 20
+  content: "service/argocd-repo-server created\r\n"
+- delay: 20
+  content: "service/argocd-server created\r\n"
+- delay: 22
+  content: "service/argocd-server-metrics created\r\n"
+- delay: 23
+  content: "deployment.apps/argocd-applicationset-controller created\r\n"
+- delay: 17
+  content: "deployment.apps/argocd-dex-server created\r\n"
+- delay: 39
+  content: "deployment.apps/argocd-notifications-controller created\r\n"
+- delay: 55
+  content: "deployment.apps/argocd-redis created\r\n"
+- delay: 148
+  content: "deployment.apps/argocd-repo-server created\r\n"
+- delay: 53
+  content: "deployment.apps/argocd-server created\r\n"
+- delay: 55
+  content: "statefulset.apps/argocd-application-controller created\r\n"
+- delay: 94
+  content: "networkpolicy.networking.k8s.io/argocd-application-controller-network-policy created\r\n"
+- delay: 54
+  content: "networkpolicy.networking.k8s.io/argocd-applicationset-controller-network-policy created\r\n"
+- delay: 40
+  content: "networkpolicy.networking.k8s.io/argocd-dex-server-network-policy created\r\n"
+- delay: 38
+  content: "networkpolicy.networking.k8s.io/argocd-notifications-controller-network-policy created\r\n"
+- delay: 41
+  content: "networkpolicy.networking.k8s.io/argocd-redis-network-policy created\r\n"
+- delay: 24
+  content: "networkpolicy.networking.k8s.io/argocd-repo-server-network-policy created\r\n"
+- delay: 18
+  content: "networkpolicy.networking.k8s.io/argocd-server-network-policy created\r\n"
+- delay: 19
+  content: "Waiting for ArgoCD to be ready...\r\n"
+- delay: 51597
+  content: "deployment.apps/argocd-server condition met\r\n"
+- delay: 11
+  content: "Installing NGINX Ingress Controller...\r\n"
+- delay: 2087
+  content: "namespace/ingress-nginx created\r\n"
+- delay: 13
+  content: "serviceaccount/ingress-nginx created\r\n"
+- delay: 14
+  content: "serviceaccount/ingress-nginx-admission created\r\n"
+- delay: 14
+  content: "role.rbac.authorization.k8s.io/ingress-nginx created\r\n"
+- delay: 13
+  content: "role.rbac.authorization.k8s.io/ingress-nginx-admission created\r\n"
+- delay: 15
+  content: "clusterrole.rbac.authorization.k8s.io/ingress-nginx created\r\n"
+- delay: 10
+  content: "clusterrole.rbac.authorization.k8s.io/ingress-nginx-admission created\r\n"
+- delay: 13
+  content: "rolebinding.rbac.authorization.k8s.io/ingress-nginx created\r\n"
+- delay: 12
+  content: "rolebinding.rbac.authorization.k8s.io/ingress-nginx-admission created\r\n"
+- delay: 9
+  content: "clusterrolebinding.rbac.authorization.k8s.io/ingress-nginx created\r\n"
+- delay: 10
+  content: "clusterrolebinding.rbac.authorization.k8s.io/ingress-nginx-admission created\r\n"
+- delay: 15
+  content: "configmap/ingress-nginx-controller created\r\n"
+- delay: 32
+  content: "service/ingress-nginx-controller created\r\n"
+- delay: 24
+  content: "service/ingress-nginx-controller-admission created\r\n"
+- delay: 17
+  content: "deployment.apps/ingress-nginx-controller created\r\n"
+- delay: 21
+  content: "job.batch/ingress-nginx-admission-create created\r\n"
+- delay: 24
+  content: "job.batch/ingress-nginx-admission-patch created\r\n"
+- delay: 24
+  content: "ingressclass.networking.k8s.io/nginx created\r\n"
+- delay: 16
+  content: "validatingwebhookconfiguration.admissionregistration.k8s.io/ingress-nginx-admission created\r\n"
+- delay: 12
+  content: "Waiting for Ingress Controller to be ready...\r\n"
+- delay: 45874
+  content: "pod/ingress-nginx-controller-6755d5f7b5-hf7pq condition met\r\n"
+- delay: 12
+  content: "Configuring ArgoCD Ingress...\r\n"
+- delay: 455
+  content: "ingress.networking.k8s.io/argocd-server-ingress created\r\n"
+- delay: 12
+  content: "Ingress configured for: https://argocd.172.23.210.21.nip.io\r
+
+    Waiting for ArgoCD to initialize...\r\n"
+- delay: 130
+  content: "\r
+
+    \r
+
+    ~~~~~~~~\r
+
+    Current ArgoCD credentials:\r
+
+    Username: \e[0;32madmin\e[0m \r\n"
+- delay: 264
+  content: "Password: \e[0;31mRwUerg9SxLaevyC3\e[0m \r
+
+    ~~~~~~~~\r
+
+    \r
+
+    \r
+
+    ArgoCD UI is available at: https://argocd.172.23.210.21.nip.io\r
+
+    Note: You might need to accept the self-signed certificate in your browser\r\n"
+- delay: 5
+  content: "Installing ArgoCD CLI...\r\n"
+- delay: 9255
+  content: '[sudo] password for o0rt: '
+- delay: 130
+  content: "\r\n"
+- delay: 2501
+  content: "ArgoCD CLI installed successfully\r
+
+    Seed setup completed successfully\r\n"
+- delay: 8
+  content: "\e[?2004h\e]0;o0rt@devops-lpt: learning/AsciiArtify\a\e[01;32mo0rt@devops-lpt\e[00m:\e[01;34mlearning/AsciiArtify\e[00m$ "
+- delay: 6471
+  content: m
+- delay: 142
+  content: a
+- delay: 112
+  content: k
+- delay: 194
+  content: e
+- delay: 201
+  content: ' '
+- delay: 709
+  content: s
+- delay: 304
+  content: e
+- delay: 275
+  content: e
+- delay: 366
+  content: d
+- delay: 715
+  content: '-'
+- delay: 273
+  content: p
+- delay: 401
+  content: r
+- delay: 130
+  content: o
+- delay: 565
+  content: x
+- delay: 353
+  content: 'y'
+- delay: 310
+  content: ' '
+- delay: 4913
+  content: "\r\n\e[?2004l\r"
+- delay: 19
+  content: "Checking kubectl installation...\r\n"
+- delay: 197
+  content: "kubectl is up to date.\r
+
+    Checking ArgoCD installation...\r\n"
+- delay: 376
+  content: "Checking ArgoCD server status...\r\n"
+- delay: 174
+  content: "Starting port-forward for ArgoCD UI...\r
+
+    ArgoCD UI will be available at: https://localhost:8080\r
+
+    Press Ctrl+C to stop the port-forward\r\n"
+- delay: 235
+  content: "Forwarding from 127.0.0.1:8080 -> 8080\r
+
+    Forwarding from [::1]:8080 -> 8080\r\n"
+- delay: 350
+  content: "Handling connection for 8080\r\n"
+- delay: 4852
+  content: "Handling connection for 8080\r\n"
+- delay: 15
+  content: "Handling connection for 8080\r\n"
+- delay: 248
+  content: "Handling connection for 8080\r\n"
+- delay: 151
+  content: "Handling connection for 8080\r\n"
+- delay: 15
+  content: "Handling connection for 8080\r\n"
+- delay: 379
+  content: "Handling connection for 8080\r
+
+    Handling connection for 8080\r\n"
+- delay: 10
+  content: "Handling connection for 8080\r\n"
+- delay: 5
+  content: "Handling connection for 8080\r\n"
+- delay: 7
+  content: "Handling connection for 8080\r
+
+    Handling connection for 8080\r\n"
+- delay: 10
+  content: "Handling connection for 8080\r\n"
+- delay: 7
+  content: "Handling connection for 8080\r\n"
+- delay: 7
+  content: "Handling connection for 8080\r
+
+    Handling connection for 8080\r
+
+    Handling connection for 8080\r\n"
+- delay: 21
+  content: "Handling connection for 8080\r\n"
+- delay: 8159
+  content: ^C
+- delay: 32
+  content: "\r
+
+    \e[?2004h\e]0;o0rt@devops-lpt: learning/AsciiArtify\a\e[01;32mo0rt@devops-lpt\e[00m:\e[01;34mlearning/AsciiArtify\e[00m$ "
+- delay: 1323
+  content: "\e[?2004l\r\r\nlogout\r\n"

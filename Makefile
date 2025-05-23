@@ -306,7 +306,7 @@ seed-argocd: seed-create check-kubectl check-helm
 	@echo "Configuring ArgoCD Ingress..."
 	@export LOCAL_IP=$(LOCAL_IP) && \
 	envsubst < argocd-ingress-traefik.yaml | kubectl apply -f -
-	@echo "Ingress configured for: https://argocd.$(LOCAL_IP).nip.io/argocd"
+	@echo "Ingress configured for: https://argocd.$(LOCAL_IP).nip.io"
 	
 	@echo "Waiting for ArgoCD to initialize..."
 	@sleep 10
@@ -319,7 +319,7 @@ seed-argocd: seed-create check-kubectl check-helm
 		echo "Password: $(RED)$$(kubectl -n $(ARGOCD_NAMESPACE) get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)$(NC)"; \
 	fi
 	@printf "~~~~~~~~$(NEWLINE)$(NEWLINE)"
-	@echo "ArgoCD UI is available at: https://argocd.$(LOCAL_IP).nip.io/argocd"
+	@echo "ArgoCD UI is available at: https://argocd.$(LOCAL_IP).nip.io"
 	@echo "Note: The URL uses your local IP address with nip.io for automatic DNS resolution"
 	@echo "Note: The connection is secured with ArgoCD's self-signed certificate"
 

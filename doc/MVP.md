@@ -8,7 +8,7 @@ This document describes the Minimum Viable Product (MVP) implementation and test
 ### 1. GitOps ArgoCD Application Demo
 The following demonstration shows the automatic update process through GitOps using ArgoCD for the demoapp application.
 
-![ArgoCD Demo](argocd.gif)
+![ArgoCD Demo](../.data/argocd.gif)
 
 The demo showcases:
 - Initial deployment of the application
@@ -18,7 +18,7 @@ The demo showcases:
 ### 2. Application Demo
 The following demonstration shows the actual application in action, highlighting its core features and functionality.
 
-![Application Demo](app_demo.gif)
+![Application Demo](../.data/app_demo.gif)
 
 The demo showcases:
 - Core application features

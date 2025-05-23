@@ -1,0 +1,20 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: httpbin-route
+  namespace: test-services # Namespace вашого сервісу
+spec:
+  parentRefs:
+  - name: envoy-gateway       # Ім'я вашого Gateway
+    namespace: envoy-gateway-system # Namespace вашого Gateway
+  hostnames:
+  - "httpbin.local.com" # Або інший хост. Для тестування з localhost, ви можете прописати цей хост у /etc/hosts
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: httpbin-service # Ім'я вашого Kubernetes Service
+      port: 80
+      namespace: test-services
